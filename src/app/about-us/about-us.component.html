@@ -1,0 +1,28 @@
+<div class="about-us">
+  <div class="container">
+    <h1>About Us</h1>
+    <p class="description">
+      Welcome to <strong>Ramro_Bazar</strong>, your go-to destination for high-quality products at unbeatable prices.
+      We connect buyers and sellers in a seamless shopping experience.
+    </p>
+
+    <div class="team-section">
+      <h2>Our Team</h2>
+      <div class="team-members">
+        <div class="team-member" *ngFor="let member of team">
+          <img [src]="member.image" [alt]="member.name" />
+          <h3>{{ member.name }}</h3>
+          <p>{{ member.role }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-section">
+      <h2>Our Mission</h2>
+      <p>
+        We strive to create a platform that brings together top-quality vendors and ensures customer satisfaction
+        through a secure and easy-to-use marketplace.
+      </p>
+    </div>
+  </div>
+</div>

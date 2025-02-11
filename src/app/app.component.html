@@ -1,0 +1,12 @@
+<nav class="navbar">
+  <div class="container-fluid">
+    <h1>Ramro_Bazar</h1>
+    <ul class="navbar">
+      <li *ngFor="let item of menuItems"><a [routerLink]="['home/',item.route]"> {{item.title}} </a> </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

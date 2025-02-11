@@ -1,0 +1,30 @@
+<div class="container">
+  <header>
+    <h1>Ramro_Bazar ---- Hami Sabai Ko Bazar</h1>
+    <div class="cart">
+      🛒 <span>{{ cartItemCount }}</span>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h2>Welcome to Our Marketplace</h2>
+    <p>Find the best products at unbeatable prices!</p>
+  </div>
+
+  <div class="filters">
+    <label for="category">Filter by Category:</label>
+    <select id="category" (change)="filterProducts($event)">
+      <option value="">All</option>
+      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+    </select>
+  </div>
+
+  <div class="product-list">
+    <div *ngFor="let product of filteredProducts" class="product-card">
+      <img [src]="product.image" [alt]="product.name" />
+      <h3>{{ product.name }}</h3>
+      <p>${{ product.price }}</p>
+      <button (click)="addToCart(product)">Add to Cart</button>
+    </div>
+  </div>
+</div>
