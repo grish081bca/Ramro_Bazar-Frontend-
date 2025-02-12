@@ -21,7 +21,7 @@ export interface ProductDetails{
     category:string;
     releaseDate:string;
     available:boolean;
-    quantity:string
+    quantity:number
 }
 
 export interface ProductDetailsResponse extends BaseApiResponse<never,BaseProductDetails<ProductDetails>>{}
