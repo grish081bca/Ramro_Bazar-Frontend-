@@ -127,4 +127,19 @@ export class ApiService implements OnInit {
       catchError(this.handleError)
     );
   }
+
+  delete<T>(endpoint: string, params?: HttpParams): Observable<HttpResponse<T>> {
+    const url = `${this.baseUrl}/${endpoint}`;
+    const options = {
+      headers: this.headers,
+      params: params,
+      observe: 'response' as 'response',
+      withCredentials: true,
+    };
+    this.logRequest('DELETE', url, options);
+    return this.http.delete<T>(url, options).pipe(
+      tap((response) => this.logResponse(url, response)),
+      catchError(this.handleError)
+    );
+  }
 }
