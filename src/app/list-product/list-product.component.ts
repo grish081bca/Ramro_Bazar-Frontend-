@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../crud-operations/crud.service';
 import { ProductDetails,ProductDetailsResponse,BaseApiResponse } from '../api-response';
+import { response } from 'express';
 
 @Component({
   selector: 'app-list-product',
@@ -11,34 +12,12 @@ import { ProductDetails,ProductDetailsResponse,BaseApiResponse } from '../api-re
   templateUrl: './list-product.component.html',
   styleUrl: './list-product.component.scss'
 })
-export class ListProductComponent {
+export class ListProductComponent implements OnInit {
 
   productList : ProductDetails[] | any;
 
-   constructor( private _crudService: CrudService ) { console.log('ListProductComponent constructor called');}
-
-  products = [
-    {
-      name: 'Product 1',
-      description: 'This is a description for product 1.',
-      price: 25.99,
-      image: 'https://via.placeholder.com/250'
-    },
-    {
-      name: 'Product 2',
-      description: 'This is a description for product 2.',
-      price: 35.99,
-      image: 'https://via.placeholder.com/250'
-    },
-    {
-      name: 'Product 3',
-      description: 'This is a description for product 3.',
-      price: 19.99,
-      image: 'https://via.placeholder.com/250'
-    }
-    // Add more products as needed
-  ];
-
+   constructor( private _crudService: CrudService ) { console.log('ListProductComponent constructor called');
+   }
 
   ngOnInit(): void {
     console.log("Grish Shrestha")
@@ -50,8 +29,25 @@ export class ListProductComponent {
     this._crudService.getProductDetails().subscribe((res)=>{
       if(res.ok){
         this.productList = res.body?.details?.products;
+        console.log(this.productList);
+      }else{
+        console.log("Error OCcurs")
       }
     })
-   // this._apiService.get<ProductDetailsResponse>('api/products');
+  }
+
+  deleteProduct(productId : number){
+    try{
+    this._crudService.deleteProduct(productId).subscribe((response)=>{
+      if(response.ok){
+        alert("Succesfully Deleted Product");
+          window.location.reload();
+      }else{
+        alert("Failed To Delete Product");
+      }
+    })
+  }catch(err){
+    console.log(err);
+  }
   }
 }
