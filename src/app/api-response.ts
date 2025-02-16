@@ -1,4 +1,3 @@
-
 export interface BaseApiResponse<U = any, T = any> {
   status: string;
   code: string;

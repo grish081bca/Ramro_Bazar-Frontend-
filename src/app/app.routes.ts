@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { ListProductComponent } from './list-product/list-product.component';
 import { AboutUsComponent } from './about-us/about-us.component';
+import { UpdateProductComponent } from './update-product/update-product.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,10 @@ export const routes: Routes = [
       {
         path : 'about-us',
         component : AboutUsComponent
+      },
+      {
+        path : 'update-product/:id',
+        component : UpdateProductComponent
       }
     ]
   },
