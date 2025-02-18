@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../crud-operations/crud.service';
 import { ProductDetails, ProductDetailsResponse, BaseApiResponse } from '../api-response';
 import { Router } from '@angular/router';
+import { response } from 'express';
+import { error } from 'console';
 
 @Component({
   selector: 'app-list-product',
@@ -55,5 +57,16 @@ export class ListProductComponent implements OnInit {
 
    editProduct(productId: number): void {
     this.router.navigate(['/home/update-product', productId]);
+  }
+
+  getProductById(productId : any) : void {
+    this._crudService.getProductById(productId).subscribe((response)=>{
+      if(response.ok){
+        const product = response.body?.details.products;
+        console.log(product);
+      }else{
+        console.log('Error Occurs');
+      }
+    })
   }
 }

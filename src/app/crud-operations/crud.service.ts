@@ -33,8 +33,10 @@ export class CrudService {
     return this.apiservice.post(`api/delete/products/${productId}`);
   }
 
-  updateProduct(productId: number, productDto: ProductDetails): Observable<HttpResponse<ProductDetailsResponse>> {
-    return this.apiservice.post(`/update/product/${productId}`, productDto);
-  }
-
+  // Edit Product
+editProduct(
+  updatedProduct: ProductDetails
+): Observable<HttpResponse<ProductDetailsResponse>> {
+  return this.apiservice.post(`api/update/product`, updatedProduct);
+}
 }

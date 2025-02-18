@@ -1,39 +1,39 @@
 <div class="update-product-form">
   <h2>Update Product</h2>
-  <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+  <form *ngIf="productDetail">
     <div class="form-group">
       <label for="name">Name:</label>
-      <input type="text" id="name" formControlName="name" class="form-control">
+      <input type="text" id="name"  class="form-control" [(ngModel)]="productDetail.name" name="name" >
     </div>
     <div class="form-group">
       <label for="price">Price:</label>
-      <input type="number" id="price" formControlName="price" class="form-control">
+      <input type="number" id="price" class="form-control" [(ngModel)]="productDetail.price" name="price" >
     </div>
     <div class="form-group">
       <label for="description">Description:</label>
-      <textarea id="description" formControlName="description" class="form-control"></textarea>
+      <textarea id="description" class="form-control" [(ngModel)]="productDetail.description" name="description"></textarea>
     </div>
     <div class="form-group">
       <label for="category">Category:</label>
-      <input type="text" id="category" formControlName="category" class="form-control">
+      <input type="text" id="category" class="form-control" [(ngModel)]="productDetail.category" name="category">
     </div>
     <div class="form-group">
       <label for="quantity">Quantity:</label>
-      <input type="number" id="quantity" formControlName="quantity" class="form-control">
+      <input type="number" id="quantity"  class="form-control" [(ngModel)]="productDetail.quantity" name="quantity">
     </div>
     <div class="form-group">
       <label for="brand">Brand:</label>
-      <input type="text" id="brand" formControlName="brand" class="form-control">
+      <input type="text" id="brand" class="form-control" [(ngModel)]="productDetail.brand" name="brand" >
     </div>
     <div class="form-group">
       <label for="available">Available:</label>
-      <input type="checkbox" id="available" formControlName="available" class="form-control">
+      <input type="checkbox" id="available" class="form-control" [(ngModel)]="productDetail.available" name="available" >
     </div>
     <div class="form-group">
       <label for="releaseDate">Release Date:</label>
-      <input type="date" id="releaseDate" formControlName="releaseDate" class="form-control">
+      <input type="date" id="releaseDate"  class="form-control" [(ngModel)]="productDetail.releaseDate" name="releaseDate" >
     </div>
-    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn-primary" (click)="updateProductDetail()" >Update</button>
     <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
   </form>
 </div>
