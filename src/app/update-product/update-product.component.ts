@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // ✅ Import FormsModule
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetails } from '../api-response';
 import { CrudService } from '../crud-operations/crud.service';
@@ -8,66 +8,87 @@ import { CrudService } from '../crud-operations/crud.service';
 @Component({
   selector: 'app-update-product',
   standalone: true,
-  imports: [CommonModule, FormsModule], // ✅ Add FormsModule here
+  imports: [CommonModule, FormsModule,ReactiveFormsModule],
   templateUrl: './update-product.component.html',
   styleUrl: './update-product.component.scss'
 })
 export class UpdateProductComponent implements OnInit {
-  productDetail: ProductDetails[] | any;
-
-  // productDetail : ProductDetails[]  | any;
+  updateForm: FormGroup;
+  productId!: number;
 
   constructor(
+    private fb: FormBuilder,
     private crudService: CrudService,
     private route: ActivatedRoute,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
-
-  ngOnInit(): void {
-    const state = this.router.getCurrentNavigation()?.extras.state;
-    if (state && state['productDetails']) {
-      this.productDetail = state['productDetails'];
-    } else {
-      // Retrieve productId from the URL if state is missing (due to refresh)
-      const productId = Number(this.route.snapshot.paramMap.get('id'));
-      if (productId) {
-        this.getProductById(productId);
-      } else {
-        console.error('Product details are missing and no productId in URL.');
-      }
-    }
-  }
-  getProductById(productId: number) {
-    this.crudService.getProductById(productId).subscribe((response) => {
-      const productData = response.body?.details.products;
-
-      if (Array.isArray(productData)) {
-        this.productDetail = productData.length > 0 ? productData[0] : this.productDetail;
-      } else if (productData) {
-        this.productDetail = productData;
-      } else {
-        console.error('No product found for the given ID');
-      }
-      this.cdr.detectChanges();  // ✅ Trigger update
+    private router: Router
+  ) {
+    this.updateForm = this.fb.group({
+      name: ['', Validators.required],
+      price: ['', Validators.required],
+      description: [''],
+      category: [''],
+      quantity: ['', Validators.required],
+      brand: [''],
+      available: [true],
+      releaseDate: ['']
     });
   }
 
+  ngOnInit(): void {
+    this.productId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log("Product ID received:", this.productId);
+    this.loadProductDetails();
+  }
 
-  updateProduct(): void {
-    this.crudService.updateProduct(this.productDetail.productId, this.productDetail).subscribe(
-      response => {
-        if (response.ok) {
-          alert('Product updated successfully!');
-          this.router.navigate(['/home/list-product']);  // Navigate back to product list
+  loadProductDetails(): void {
+    this.crudService.getProductById(this.productId).subscribe({
+      next: (response) => {
+        if (response.ok && response.body?.details?.products) {
+          const product = response.body?.details?.products?.[0];
+          this.updateForm.patchValue({
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            category: product.category,
+            quantity: product.quantity,
+            brand: product.brand,
+            available: product.available,
+            releaseDate: product.releaseDate
+          });
         } else {
-          alert('Failed to update product.');
+          if (typeof window !== 'undefined') {
+            alert('Failed to load product details');
+          }
         }
       },
-      err => {
-        console.error('Error updating product:', err);
-        alert('An error occurred while updating the product.');
+      error: (error) => {
+        console.error('Error loading product:', error);
+        alert('Error loading product details');
       }
-    );
+    });
+  }
+
+  onSubmit(): void {
+    if (this.updateForm.valid) {
+      const updatedProduct: ProductDetails = this.updateForm.value;
+      this.crudService.updateProduct(this.productId, updatedProduct).subscribe({
+        next: (response) => {
+          if (response.ok && response.body?.details) {
+            alert('Product updated successfully');
+            this.router.navigate(['/products']);
+          } else {
+            alert(response.body?.message || 'Failed to update product');
+          }
+        },
+        error: (error) => {
+          console.error('Error updating product:', error);
+          alert('Error updating product');
+        }
+      });
+    }
+  }
+
+  cancel(): void {
+    this.router.navigate(['/products']);
   }
 }

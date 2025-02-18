@@ -27,10 +27,7 @@ export const routes: Routes = [
         path : 'about-us',
         component : AboutUsComponent
       },
-      {
-        path : 'update-product/:id',
-        component : UpdateProductComponent
-      }
+      { path: 'update-product/:id', component: UpdateProductComponent }
     ]
   },
   {

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ProductDetails } from './../api-response';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
@@ -13,7 +14,7 @@ import { CrudService } from '../crud-operations/crud.service';
 
 export class AddProductComponent {
   productDetail : ProductDetails = {
-    productId: 0,  // Assuming it's auto-generated in the backend
+    productId: 0,
     name: '',
     description: '',
     price: 0,
@@ -24,14 +25,16 @@ export class AddProductComponent {
     quantity: 0,
   };
 
-  constructor(private crudService : CrudService){}
+  constructor(private crudService : CrudService,
+    private router : Router
+  ){}
 
   addProduct() {
     if(this.productDetail){
       this.crudService.addProducts(this.productDetail).subscribe((res)=>{
         if(res.ok){
           alert("Added Product Successfully")
-          window.location.reload();
+          this.router.navigate(['home/list-product']);
         }else{
           alert("Failed To Add Product");
         }

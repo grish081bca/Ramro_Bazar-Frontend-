@@ -1,29 +1,16 @@
-.add-product {
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  max-width: 400px;
+.update-product-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
 }
-
-input {
-  display: block;
+.form-group {
+  margin-bottom: 15px;
+}
+.form-control {
   width: 100%;
   padding: 8px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  margin-top: 5px;
 }
-
-button {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-button:hover {
-  background: #0056b3;
+.btn {
+  margin-right: 10px;
 }

@@ -33,15 +33,8 @@ export class CrudService {
     return this.apiservice.post(`api/delete/products/${productId}`);
   }
 
-
-  //Update Product
-  // updateProduct(productId: number, productDto: ProductDetails) {
-  //   const params = new HttpParams().set('id', productId.toString());
-  //   return this.apiservice.put('/update/product', productDto, params);
-  // }
-
   updateProduct(productId: number, productDto: ProductDetails): Observable<HttpResponse<ProductDetailsResponse>> {
-    return this.apiservice.put(`/update/product/${productId}`, productDto);
+    return this.apiservice.post(`/update/product/${productId}`, productDto);
   }
 
 }

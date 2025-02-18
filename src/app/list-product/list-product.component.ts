@@ -52,9 +52,8 @@ export class ListProductComponent implements OnInit {
       console.log(err);
     }
   }
-  updateProduct(product: ProductDetails): void {
-    this.router.navigate([`/home/update-product/${product.productId}`], {
-      state: { productDetails: product }
-    });
+
+   editProduct(productId: number): void {
+    this.router.navigate(['/home/update-product', productId]);
   }
 }
