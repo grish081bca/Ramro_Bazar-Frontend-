@@ -1,9 +1,10 @@
 .add-product {
   border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 20px;
   border-radius: 8px;
-  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 input {
@@ -26,4 +27,10 @@ button {
 
 button:hover {
   background: #0056b3;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
