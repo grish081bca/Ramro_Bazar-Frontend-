@@ -2,7 +2,7 @@ import { ApiService } from './../api.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../crud-operations/crud.service';
-import { ProductDetails, ProductDetailsResponse, BaseApiResponse } from '../api-response';
+import { ProductDetails, ProductDetailsResponse, BaseApiResponse, BaseProductDetails } from '../api-response';
 import { Router } from '@angular/router';
 import { response } from 'express';
 import { error } from 'console';
@@ -17,6 +17,7 @@ import { error } from 'console';
 export class ListProductComponent implements OnInit {
 
   productList: ProductDetails[] | any;
+  totalProduct : BaseProductDetails | any;
 
   constructor(private _crudService: CrudService,
               private router: Router) {
@@ -33,6 +34,7 @@ export class ListProductComponent implements OnInit {
     this._crudService.getProductDetails().subscribe((res) => {
       if (res.ok) {
         this.productList = res.body?.details?.products;
+        this.totalProduct = res.body?.details.totalProducts;
         console.log(this.productList);
       } else {
         console.log("Error occurs");
