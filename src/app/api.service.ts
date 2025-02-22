@@ -86,6 +86,35 @@ export class ApiService implements OnInit {
       catchError(this.handleError)
     );
   }
+  // post<T>(
+  //   endpoint: string,
+  //   body?: any,
+  //   params?: HttpParams,
+  //   customHeader?: HttpHeaders
+  // ): Observable<HttpResponse<T>> {
+  //   const url = `${this.baseUrl}/${endpoint}`;
+
+  //   // Handle headers differently for FormData
+  //   let headers = customHeader;
+  //   if (body instanceof FormData) {
+  //     headers = customHeader || new HttpHeaders(); // Empty headers for FormData
+  //   } else {
+  //     headers = customHeader || this.headers; // Use default JSON headers
+  //   }
+
+  //   const options = {
+  //     headers: headers,
+  //     params: params,
+  //     observe: 'response' as 'response',
+  //     withCredentials: true,
+  //   };
+
+  //   this.logRequest('POST', url, { ...options, body });
+  //   return this.http.post<T>(url, body, options).pipe(
+  //     tap((response) => this.logResponse(url, response)),
+  //     catchError(this.handleError)
+  //   );
+  // }
 
   postMultipart<T>(
     endpoint: string,

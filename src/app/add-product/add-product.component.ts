@@ -24,21 +24,61 @@ export class AddProductComponent {
     available: false,
     quantity: 0,
   };
+  selectedFile: File | null = null;
 
   constructor(private crudService : CrudService,
     private router : Router
   ){}
 
-  addProduct() {
-    if(this.productDetail){
-      this.crudService.addProducts(this.productDetail).subscribe((res)=>{
-        if(res.ok){
-          alert("Added Product Successfully")
-          this.router.navigate(['home/list-product']);
-        }else{
-          alert("Failed To Add Product");
-        }
-      })
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type.match(/image\/*/)) {
+      this.selectedFile = file;
+    } else {
+      alert('Only image files are allowed');
     }
   }
+
+  // addProduct() {
+  //   if(this.productDetail){
+  //     this.crudService.addProducts(this.productDetail).subscribe((res)=>{
+  //       if(res.ok){
+  //         alert("Added Product Successfully")
+  //         this.router.navigate(['home/list-product']);
+  //       }else{
+  //         alert("Failed To Add Product");
+  //       }
+  //     })
+  //   }
+  // }
+
+  addProduct() {
+    if (!this.selectedFile) {
+      alert('Please select an image');
+      return;
+    }
+
+    const formData = new FormData();
+
+    // 1. Create JSON part with explicit content type
+    const productBlob = new Blob([JSON.stringify(this.productDetail)], {
+      type: 'application/json'
+    });
+
+    // 2. Append parts with exact backend parameter names
+    formData.append('productDTO', productBlob);
+    formData.append('imageFile', this.selectedFile);
+
+    // 3. Send without any headers
+    this.crudService.addProducts(formData).subscribe({
+      next: (res) => {
+        if (res.ok) this.router.navigate(['home/list-product']);
+      },
+      error: (err) => {
+        console.error('Upload error:', err);
+        alert('Error adding product');
+      }
+    });
+  }
 }
+

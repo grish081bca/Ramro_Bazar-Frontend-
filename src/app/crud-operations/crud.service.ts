@@ -22,10 +22,17 @@ export class CrudService {
   }
 
   //Add Product
-  addProducts(
-    addProduct : ProductDetails
-  ): Observable<HttpResponse<ProductDetailsResponse>> {
-    return this.apiservice.post('api/add-product', addProduct);
+  // addProducts(
+  //   addProduct : FormData,
+  //   headers : HttpHeaders = new HttpHeaders({
+  //     'Content-Type': 'multipart/form-data',
+  //     Accept: 'application/json',
+  //   })
+  // ): Observable<HttpResponse<ProductDetailsResponse>> {
+  //   return this.apiservice.post('api/add-product', addProduct,undefined,headers);
+  // }
+  addProducts(formData: FormData): Observable<HttpResponse<ProductDetailsResponse>> {
+    return this.apiservice.postMultipart('api/add-product', formData);
   }
 
   //Delete Product
