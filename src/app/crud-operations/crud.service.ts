@@ -21,6 +21,14 @@ export class CrudService {
     return this.apiservice.get<ProductDetailsResponse>('api/products/' + productId) ;
   }
 
+  getProductImage(productId: number): Observable<HttpResponse<Blob>> {
+    return this.apiservice.get<Blob>(`api/product/${productId}/image`, {
+      responseType: 'blob', // No need to cast it explicitly
+      observe: 'response'
+    } as any); // TypeScript workaround for strict type checking
+  }
+
+
   //Add Product
   // addProducts(
   //   addProduct : FormData,

@@ -18,6 +18,7 @@ export class ListProductComponent implements OnInit {
 
   productList: ProductDetails[] | any;
   totalProduct : BaseProductDetails | any;
+  productId : number | any;
 
   constructor(private _crudService: CrudService,
               private router: Router) {
@@ -27,6 +28,7 @@ export class ListProductComponent implements OnInit {
   ngOnInit(): void {
     console.log("Grish Shrestha")
     this.getProduct();
+    this.getProductImage();
   }
 
   getProduct(): void {
@@ -35,7 +37,10 @@ export class ListProductComponent implements OnInit {
       if (res.ok) {
         this.productList = res.body?.details?.products;
         this.totalProduct = res.body?.details.totalProducts;
-        console.log(this.productList);
+
+        this.productList.forEach((product: ProductDetails) => {
+          this.loadProductImage(product.productId);
+        });
       } else {
         console.log("Error occurs");
       }
@@ -71,4 +76,39 @@ export class ListProductComponent implements OnInit {
       }
     })
   }
+
+  getProductImage() : void {
+    if(this.productId){
+    this._crudService.getProductImage(this.productId).subscribe((response)=>{
+      if(response.ok){
+        console.log(response);
+      }else{
+        console.log('Error Occurs');
+      }
+    })
+  }
+ }
+ private loadProductImage(productId: number): void {
+  this._crudService.getProductImage(productId).subscribe({
+    next: (response) => {
+      if (response.ok && response.body) {
+        const blob = response.body;
+        const imageUrl = URL.createObjectURL(blob);
+
+        // Update the correct product in the list
+        this.productList = this.productList.map((p: ProductDetails) => {
+          if (p.productId === productId) {
+            return { ...p, image: imageUrl };
+          }
+          return p;
+        });
+      }
+    },
+    error: (err) => {
+      console.error('Error loading image:', err);
+      // Optionally set a default image
+      // product.image = 'assets/default-image.png';
+    }
+  });
+}
 }
