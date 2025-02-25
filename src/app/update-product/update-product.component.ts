@@ -16,6 +16,7 @@ import { response } from 'express';
 })
 export class UpdateProductComponent implements OnInit {
   productDetail : ProductDetails[] | any;
+  selectedFile: File | null = null;
 
   constructor(
     private crudService: CrudService,
@@ -49,17 +50,85 @@ export class UpdateProductComponent implements OnInit {
     })
   }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type.match(/image\/*/)) {
+      this.selectedFile = file;
+    } else {
+      alert('Only image files are allowed');
+    }
+  }
   //This Will Update Product
-  updateProductDetail(){
-    this.crudService.editProduct(this.productDetail).subscribe((res)=>{
-      if(res.ok){
+  // updateProductDetail(){
+  //   const formData = new FormData();
+  //   if (this.selectedFile) {
+  //     formData.append('image', this.selectedFile);
+  //   }
+
+  //   this.crudService.editProduct(this.productDetail).subscribe((res)=>{
+  //     if(res.ok){
+  //       alert('Product Updated Successfully');
+  //       this.router.navigate(['/home/list-product']);
+  //     }else{
+  //       alert('Failed To Update Product');
+  //     }
+  //   });
+  // }
+
+  updateProductDetail() {
+    const formData = new FormData();
+
+    // Convert the product details into a JSON Blob
+    const productBlob = new Blob([JSON.stringify(this.productDetail)], {
+      type: 'application/json',
+    });
+
+    formData.append('productDTO', productBlob);
+
+    if (this.selectedFile) {
+      formData.append('imageFile', this.selectedFile);
+    }
+
+    // Use the modified API method for multipart request
+    this.crudService.editProduct(formData).subscribe((res) => {
+      if (res.ok) {
         alert('Product Updated Successfully');
         this.router.navigate(['/home/list-product']);
-      }else{
+      } else {
         alert('Failed To Update Product');
       }
     });
   }
+
+
+  // addProduct() {
+  //   if (!this.selectedFile) {
+  //     alert('Please select an image');
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+
+  //   // 1. Create JSON part with explicit content type
+  //   const productBlob = new Blob([JSON.stringify(this.productDetail)], {
+  //     type: 'application/json'
+  //   });
+
+  //   // 2. Append parts with exact backend parameter names
+  //   formData.append('productDTO', productBlob);
+  //   formData.append('imageFile', this.selectedFile);
+
+  //   // 3. Send without any headers
+  //   this.crudService.addProducts(formData).subscribe({
+  //     next: (res) => {
+  //       if (res.ok) this.router.navigate(['home/list-product']);
+  //     },
+  //     error: (err) => {
+  //       console.error('Upload error:', err);
+  //       alert('Error adding product');
+  //     }
+  //   });
+  // }
 
   cancel(): void {
     this.router.navigate(['/home/list-product']);

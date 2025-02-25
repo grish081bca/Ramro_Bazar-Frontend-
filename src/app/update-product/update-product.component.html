@@ -33,6 +33,10 @@
       <label for="releaseDate">Release Date:</label>
       <input type="date" id="releaseDate"  class="form-control" [(ngModel)]="productDetail.releaseDate" name="releaseDate" >
     </div>
+    <div class="form-group">
+      <label for="image">Image</label>
+      <input type="file" [(ngModel)]="productDetail.imageName" (change)="onFileSelected($event)">
+    </div>
     <button type="submit" class="btn btn-primary" (click)="updateProductDetail()" >Update</button>
     <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
   </form>

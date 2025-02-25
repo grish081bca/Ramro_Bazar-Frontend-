@@ -22,10 +22,7 @@ export class CrudService {
   }
 
   getProductImage(productId: number): Observable<HttpResponse<Blob>> {
-    return this.apiservice.get<Blob>(`api/product/${productId}/image`, {
-      responseType: 'blob', // No need to cast it explicitly
-      observe: 'response'
-    } as any); // TypeScript workaround for strict type checking
+    return this.apiservice.get<Blob>(`api/product/${productId}/image`);
   }
 
 
@@ -49,9 +46,15 @@ export class CrudService {
   }
 
   // Edit Product
-editProduct(
-  updatedProduct: ProductDetails
-): Observable<HttpResponse<ProductDetailsResponse>> {
-  return this.apiservice.post(`api/update/product`, updatedProduct);
+// editProduct(
+//   updatedProduct: ProductDetails
+// ): Observable<HttpResponse<ProductDetailsResponse>> {
+//   return this.apiservice.post(`api/update/product`, updatedProduct);
+// }
+
+editProduct(formData: FormData): Observable<HttpResponse<ProductDetailsResponse>> {
+  return this.apiservice.postMultipart('api/update/product', formData);
 }
+
+
 }
