@@ -35,7 +35,7 @@
     </div>
     <div class="form-group">
       <label for="image">Image</label>
-      <input type="file" [(ngModel)]="productDetail.imageName" (change)="onFileSelected($event)">
+      <input type="file" [(ngModel)]="imageName" name="imageName" (change)="onFileSelected($event)">
     </div>
     <button type="submit" class="btn btn-primary" (click)="updateProductDetail()" >Update</button>
     <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>

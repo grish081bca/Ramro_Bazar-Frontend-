@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../crud-operations/crud.service';
 import { ProductDetails } from '../api-response';
-import { environment } from '../environment';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-dashboard',

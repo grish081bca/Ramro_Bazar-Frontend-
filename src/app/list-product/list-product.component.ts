@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../crud-operations/crud.service';
 import { ProductDetails, BaseProductDetails } from '../api-response';
 import { Router } from '@angular/router';
-import { environment } from '../environment';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-list-product',
