@@ -15,7 +15,6 @@ export class DashboardComponent implements OnInit {
   productsList: ProductDetails[]  | any;
   categories: any;  // Changed this to an array
   filteredProducts: ProductDetails[] = []; // Initialize with an empty array
- productImages: { [key: number]: string } = {};
   baseUrl = environment.baseUrl;
   productImage : any;
 
@@ -46,7 +45,7 @@ export class DashboardComponent implements OnInit {
         this.categories = [...new Set(this.productsList.map((p: { category: any; }) => p.category))]; // Extract unique categories
         this.filteredProducts = [...this.productsList];
         this.productsList.forEach((product: ProductDetails) => {
-          this.getProductImage(product.productId);
+          // this.getProductImage(product.productId);
         });
       } else {
         console.log("Error Occurred");
@@ -54,14 +53,14 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getProductImage(productId: number): void {
-    this.crudService.getProductImage(productId).subscribe((response) => {
-      if (response.ok) {
-        // Store each product's image in a dictionary using productId as key
-        this.productImages[productId] = `${this.baseUrl}/api/product/${productId}/image`;
-      } else {
-        console.log('Error Occurs');
-      }
-    });
-  }
+  // getProductImage(productId: number): void {
+  //   this.crudService.getProductImage(productId).subscribe((response) => {
+  //     if (response.ok) {
+  //       // Store each product's image in a dictionary using productId as key
+  //       this.productImages[productId] = `${this.baseUrl}/api/product/${productId}/image`;
+  //     } else {
+  //       console.log('Error Occurs');
+  //     }
+  //   });
+  // }
 }

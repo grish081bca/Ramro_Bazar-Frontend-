@@ -15,7 +15,7 @@ import { CrudService } from '../crud-operations/crud.service';
 export class AddProductComponent {
   productDetail : ProductDetails = {
     productId: 0,
-    name: '',
+    productName: '',
     description: '',
     price: 0,
     brand: '',
@@ -23,6 +23,7 @@ export class AddProductComponent {
     releaseDate: '',
     available: false,
     quantity: 0,
+    imageUrl: ''
   };
   selectedFile: File | null = null;
 
@@ -60,13 +61,14 @@ export class AddProductComponent {
 
     const formData = new FormData();
 
-    // 1. Create JSON part with explicit content type
-    const productBlob = new Blob([JSON.stringify(this.productDetail)], {
-      type: 'application/json'
-    });
-
-    // 2. Append parts with exact backend parameter names
-    formData.append('productDTO', productBlob);
+    formData.append('productName', this.productDetail.productName);
+    formData.append('description', this.productDetail.description);
+    formData.append('price', this.productDetail.price.toString());
+    formData.append('brand', this.productDetail.brand);
+    formData.append('category', this.productDetail.category);
+    formData.append('releaseDate', this.productDetail.releaseDate);
+    formData.append('available', this.productDetail.available.toString());
+    formData.append('quantity', this.productDetail.quantity.toString());
     formData.append('imageFile', this.selectedFile);
 
     // 3. Send without any headers

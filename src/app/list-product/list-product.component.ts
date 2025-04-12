@@ -16,13 +16,10 @@ export class ListProductComponent implements OnInit {
 
   productList: ProductDetails[] | any;
   totalProduct : BaseProductDetails | any;
-  productImages: { [key: number]: string } = {};
   baseUrl = environment.baseUrl;
-  productImage : any;
 
   constructor(private _crudService: CrudService,
               private router: Router) {
-    console.log('ListProductComponent constructor called');
   }
 
   ngOnInit(): void {
@@ -35,9 +32,6 @@ export class ListProductComponent implements OnInit {
       if (res.ok) {
         this.productList = res.body?.details?.products;
         this.totalProduct = res.body?.details.totalProducts;
-       this.productList.forEach((product: ProductDetails) => {
-        this.getProductImage(product.productId);
-      });
       } else {
         console.log("Error occurs");
       }
@@ -61,27 +55,5 @@ export class ListProductComponent implements OnInit {
 
    editProduct(productId: number): void {
     this.router.navigate(['/home/update-product', productId]);
-  }
-
-  getProductById(productId : any) : void {
-    this._crudService.getProductById(productId).subscribe((response)=>{
-      if(response.ok){
-        const product = response.body?.details.products;
-        console.log(product);
-      }else{
-        console.log('Error Occurs');
-      }
-    })
-  }
-
-  getProductImage(productId: number): void {
-    this._crudService.getProductImage(productId).subscribe((response) => {
-      if (response.ok) {
-        // Store each product's image in a dictionary using productId as key
-        this.productImages[productId] = `${this.baseUrl}/api/product/${productId}/image`;
-      } else {
-        console.log('Error Occurs');
-      }
-    });
   }
 }

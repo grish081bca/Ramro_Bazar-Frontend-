@@ -21,8 +21,8 @@
 
   <div class="product-list">
     <div *ngFor="let product of filteredProducts" class="product-card">
-      <img *ngIf="productImages[product.productId]" [src]="productImages[product.productId]" alt="Product Image">
-      <h3>{{ product.name }}</h3>
+      <img [src]="product.imageUrl" alt="">
+      <h3>{{ product.productName }}</h3>
       <p>${{ product.price }}</p>
       <button (click)="addToCart(product)">Add to Cart</button>
     </div>

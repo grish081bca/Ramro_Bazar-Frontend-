@@ -1,3 +1,5 @@
+import { Url } from "url";
+
 export interface BaseApiResponse<U = any, T = any> {
   status: string;
   code: string;
@@ -13,7 +15,7 @@ export interface BaseProductDetails<T=any>{
 
 export interface ProductDetails{
     productId:number;
-    name:string;
+    productName :string;
     description:string;
     price:number;
     brand:string;
@@ -21,6 +23,7 @@ export interface ProductDetails{
     releaseDate:string;
     available:boolean;
     quantity:number;
+    imageUrl:string;
 }
 
 export interface ProductDetailsResponse extends BaseApiResponse<never,BaseProductDetails<ProductDetails>>{}

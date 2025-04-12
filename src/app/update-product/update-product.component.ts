@@ -17,7 +17,6 @@ import { response } from 'express';
 export class UpdateProductComponent implements OnInit {
   productDetail : ProductDetails[] | any;
   selectedFile: File | null = null;
-  imageName : string | any;
 
   constructor(
     private crudService: CrudService,
@@ -44,7 +43,6 @@ export class UpdateProductComponent implements OnInit {
     this.crudService.getProductById(productId).subscribe((response)=>{
       if(response.ok){
         this.productDetail = response.body?.details.products;
-        this.imageName = this.productDetail.imageName;
         console.log(this.productDetail);
       }else{
         alert('Something went wrong please try again');
@@ -63,13 +61,15 @@ export class UpdateProductComponent implements OnInit {
 
   updateProductDetail() {
     const formData = new FormData();
-
-    // Convert the product details into a JSON Blob
-    const productBlob = new Blob([JSON.stringify(this.productDetail)], {
-      type: 'application/json',
-    });
-
-    formData.append('productDTO', productBlob);
+    formData.append('productId', this.productDetail.productId);
+    formData.append('productName', this.productDetail.productName);
+    formData.append('description', this.productDetail.description);
+    formData.append('price', this.productDetail.price.toString());
+    formData.append('brand', this.productDetail.brand);
+    formData.append('category', this.productDetail.category);
+    formData.append('releaseDate', this.productDetail.releaseDate);
+    formData.append('available', this.productDetail.available.toString());
+    formData.append('quantity', this.productDetail.quantity.toString());
 
     if (this.selectedFile) {
       formData.append('imageFile', this.selectedFile);

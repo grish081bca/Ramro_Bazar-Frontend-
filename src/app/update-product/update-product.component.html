@@ -3,7 +3,7 @@
   <form *ngIf="productDetail">
     <div class="form-group">
       <label for="name">Name:</label>
-      <input type="text" id="name"  class="form-control" [(ngModel)]="productDetail.name" name="name" >
+      <input type="text" id="name"  class="form-control" [(ngModel)]="productDetail.productName" name="name" >
     </div>
     <div class="form-group">
       <label for="price">Price:</label>
@@ -35,7 +35,10 @@
     </div>
     <div class="form-group">
       <label for="image">Image</label>
-      <input type="file" [(ngModel)]="imageName" name="imageName" (change)="onFileSelected($event)">
+      <div *ngIf="productDetail.imageUrl">
+        <img [src]="productDetail.imageUrl" alt="Current Image" width="100" height="100">
+      </div>
+      <input type="file" [(ngModel)]="productDetail.imageUrl" name="imageUrl" (change)="onFileSelected($event)">
     </div>
     <button type="submit" class="btn btn-primary" (click)="updateProductDetail()" >Update</button>
     <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
